@@ -1,0 +1,1016 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transfer Unit2 Group 3</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #d9dee8;
+      --brand: #155eef;
+      --brand-2: #0e9384;
+      --danger: #d92d20;
+      --warn: #dc6803;
+      --ok: #039855;
+      --shadow: 0 10px 25px rgba(21, 32, 51, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 2px 10px rgba(21, 32, 51, .04);
+    }
+    .top-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 14px 16px 10px;
+      display: grid;
+      gap: 12px;
+    }
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    h1 { margin: 0; font-size: 20px; }
+    .subtitle { color: var(--muted); font-size: 13px; margin-top: 2px; }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .tab {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #344054;
+      border-radius: 6px;
+      padding: 9px 12px;
+      white-space: nowrap;
+    }
+    .tab.active {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #fff;
+    }
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 18px 16px 64px;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #344054;
+      border-radius: 6px;
+      min-height: 38px;
+      padding: 8px 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+    .btn.success { background: var(--brand-2); border-color: var(--brand-2); color: #fff; }
+    .btn.danger { background: var(--danger); border-color: var(--danger); color: #fff; }
+    .btn.warn { background: var(--warn); border-color: var(--warn); color: #fff; }
+    .btn.sm { min-height: 30px; padding: 5px 8px; font-size: 13px; }
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+    .stats {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-bottom: 14px;
+    }
+    .stat, .panel, .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .stat { padding: 14px; }
+    .stat .label { color: var(--muted); font-size: 12px; }
+    .stat .value { font-size: 26px; font-weight: 800; margin-top: 4px; }
+    .panel { padding: 14px; margin-bottom: 14px; }
+    .panel-title {
+      font-weight: 800;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 980px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      padding: 8px;
+      vertical-align: top;
+      text-align: left;
+      font-size: 13px;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #f2f4f7;
+      font-weight: 800;
+    }
+    td:first-child, th:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      background: #fff;
+      min-width: 190px;
+    }
+    th:first-child { background: #f2f4f7; z-index: 4; }
+    .emp-name { font-weight: 800; }
+    .emp-meta { color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .day-cell {
+      display: grid;
+      gap: 4px;
+      min-width: 132px;
+      min-height: 92px;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      padding: 0;
+      width: 100%;
+    }
+    .pill {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-weight: 800;
+      font-size: 12px;
+      color: #fff;
+    }
+    .s-Onl { background: #039855; }
+    .s-Home { background: #dc6803; }
+    .s-Rest { background: #475467; }
+    .s-PL, .s-AL, .s-VA { background: #155eef; }
+    .s-BL, .s-PTL, .s-MTL, .s-ML { background: #7a5af8; }
+    .s-AB { background: #d92d20; }
+    .cell-line { color: #344054; font-size: 12px; }
+    .cell-line.muted { color: var(--muted); }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    label { display: grid; gap: 5px; color: #344054; font-size: 13px; font-weight: 700; }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 9px 10px;
+      background: #fff;
+      color: var(--ink);
+    }
+    textarea { min-height: 84px; resize: vertical; }
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+    .card {
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+    .card-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .muted { color: var(--muted); }
+    .score-pos { color: var(--ok); font-weight: 800; }
+    .score-neg { color: var(--danger); font-weight: 800; }
+    .summary-table { min-width: 720px; }
+    .bar {
+      height: 10px;
+      background: #e4e7ec;
+      border-radius: 999px;
+      overflow: hidden;
+      min-width: 100px;
+    }
+    .bar span { display: block; height: 100%; background: var(--brand-2); }
+    dialog {
+      width: min(720px, calc(100vw - 24px));
+      border: 0;
+      border-radius: 8px;
+      padding: 0;
+      box-shadow: 0 20px 60px rgba(21, 32, 51, .28);
+    }
+    dialog::backdrop { background: rgba(21, 32, 51, .42); }
+    .modal-head, .modal-foot {
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .modal-foot {
+      border-bottom: 0;
+      border-top: 1px solid var(--line);
+      justify-content: flex-end;
+    }
+    .modal-body { padding: 14px; }
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      background: #172033;
+      color: #fff;
+      padding: 11px 14px;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: .2s ease;
+      z-index: 20;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .hidden { display: none !important; }
+    @media (max-width: 760px) {
+      .stats, .form-grid { grid-template-columns: 1fr; }
+      .brand-row { align-items: flex-start; flex-direction: column; }
+      main { padding-inline: 10px; }
+      .top-inner { padding-inline: 10px; }
+      td:first-child, th:first-child { min-width: 150px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="top-inner">
+      <div class="brand-row">
+        <div>
+          <h1>Transfer Unit2 Group 3</h1>
+          <div class="subtitle">Shein - Kho BW Long An (Tây Ninh)</div>
+        </div>
+        <div class="toolbar" style="margin:0">
+          <button class="btn success" onclick="exportExcel()">Xuất Excel</button>
+          <button class="btn" onclick="exportBackup()">Sao lưu JSON</button>
+          <button class="btn" onclick="document.getElementById('importFile').click()">Nhập JSON</button>
+          <input id="importFile" type="file" accept="application/json" class="hidden" onchange="importBackup(event)">
+        </div>
+      </div>
+      <nav class="tabs" id="tabs"></nav>
+    </div>
+  </header>
+
+  <main id="app"></main>
+
+  <dialog id="modal">
+    <div class="modal-head">
+      <strong id="modalTitle"></strong>
+      <button class="btn sm" onclick="closeModal()">Đóng</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot" id="modalFoot"></div>
+  </dialog>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const TEAM = 'Transfer Unit2 Group 3';
+    const STORE_KEY = 'tu2g3_management_v2';
+    const tabs = [
+      ['schedule', 'Lịch làm việc'],
+      ['employees', 'Nhân sự'],
+      ['activities', 'Hoạt động'],
+      ['records', 'Ghi nhận'],
+      ['reports', 'Báo cáo']
+    ];
+    const statuses = {
+      Onl: 'Đi làm',
+      Home: 'Nghỉ vượt',
+      Rest: 'Nghỉ tuần',
+      PL: 'Phép cá nhân',
+      AL: 'Phép năm',
+      BL: 'Phép tang',
+      PTL: 'Nghỉ thai sản nam',
+      MTL: 'Nghỉ thai sản nữ',
+      ML: 'Nghỉ kết hôn',
+      VA: 'Nghỉ lễ',
+      AB: 'Nghỉ không phép'
+    };
+    const zones = ['C1', 'D1', 'G1', 'F1', 'I1', 'A2', 'A3', 'B2', 'B3', 'E3', 'I2'];
+    const positions = ['C11', 'C12', 'A2', 'A3', 'B2', 'B3', 'E3', 'I2', 'Xe điện', 'Phòng pin'];
+    const tasks = ['Báo cáo PDA/6S', 'Kiểm đếm vật tư, vật dụng, thiết bị', '6S'];
+    const shifts = ['8:00-17:00', '9:00-18:00', '14:00-23:00', '17:00-02:00'];
+
+    let state = loadState();
+    let activeTab = 'schedule';
+    let selectedDate = isoDate(new Date());
+
+    function defaultEmployees() {
+      const names = [
+        'Nguyễn Văn A', 'Trần Thị B', 'Lê Văn C', 'Phạm Thị D', 'Hoàng Văn E', 'Vũ Thị F',
+        'Đặng Văn G', 'Bùi Thị H', 'Ngô Văn I', 'Dương Thị K', 'Lý Văn L', 'Mai Thị M',
+        'Phan Văn N', 'Trương Thị O', 'Hồ Văn P', 'Nguyễn Thị Q', 'Lê Văn R', 'Trần Thị S'
+      ];
+      return names.map((name, index) => ({
+        id: crypto.randomUUID(),
+        code: `TU2G3-${String(index + 1).padStart(3, '0')}`,
+        name,
+        birthDate: '',
+        role: index === 0 ? 'Teamlead' : 'Worker',
+        zone: zones[index % zones.length],
+        position: positions[index % positions.length]
+      }));
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem(STORE_KEY);
+      if (saved) return JSON.parse(saved);
+      return {
+        employees: defaultEmployees(),
+        schedule: {},
+        activities: [],
+        records: [],
+        customShifts: [...shifts],
+        customTasks: [...tasks],
+        customPositions: [...positions],
+        updatedAt: new Date().toISOString()
+      };
+    }
+
+    function saveState() {
+      state.updatedAt = new Date().toISOString();
+      localStorage.setItem(STORE_KEY, JSON.stringify(state));
+      render();
+    }
+
+    function render() {
+      renderTabs();
+      const app = document.getElementById('app');
+      if (activeTab === 'schedule') app.innerHTML = renderSchedule();
+      if (activeTab === 'employees') app.innerHTML = renderEmployees();
+      if (activeTab === 'activities') app.innerHTML = renderActivities();
+      if (activeTab === 'records') app.innerHTML = renderRecords();
+      if (activeTab === 'reports') app.innerHTML = renderReports();
+    }
+
+    function renderTabs() {
+      document.getElementById('tabs').innerHTML = tabs.map(([id, label]) =>
+        `<button class="tab ${activeTab === id ? 'active' : ''}" onclick="activeTab='${id}';render()">${label}</button>`
+      ).join('');
+    }
+
+    function renderStats() {
+      const today = selectedDate;
+      const todayItems = state.employees.map(emp => getEntry(emp.id, today));
+      const month = today.slice(0, 7);
+      const monthEntries = Object.values(state.schedule).filter(item => item.date.startsWith(month));
+      return `
+        <section class="grid stats">
+          <div class="stat"><div class="label">Tổng nhân sự</div><div class="value">${state.employees.length}</div></div>
+          <div class="stat"><div class="label">Đi làm trong ngày</div><div class="value">${todayItems.filter(i => i.status === 'Onl').length}</div></div>
+          <div class="stat"><div class="label">Home trong ngày</div><div class="value">${todayItems.filter(i => i.status === 'Home').length}</div></div>
+          <div class="stat"><div class="label">Ghi nhận tháng</div><div class="value">${state.records.filter(r => r.date.startsWith(month)).length}</div></div>
+        </section>
+      `;
+    }
+
+    function renderSchedule() {
+      const week = weekDates(selectedDate);
+      return `
+        ${renderStats()}
+        <section class="panel">
+          <div class="panel-title">
+            <span>Lịch tuần ${formatDate(week[0])} - ${formatDate(week[6])}</span>
+            <span class="muted">${TEAM}</span>
+          </div>
+          <div class="toolbar">
+            <button class="btn" onclick="moveWeek(-1)">Tuần trước</button>
+            <input type="date" value="${selectedDate}" onchange="selectedDate=this.value;render()">
+            <button class="btn" onclick="moveWeek(1)">Tuần sau</button>
+            <button class="btn primary" onclick="autoScheduleWeek()">Sắp lịch tự động</button>
+            <button class="btn warn" onclick="validateSchedule()">Kiểm tra logic</button>
+            <button class="btn" onclick="openListsForm()">Danh mục ca/vị trí/công tác</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nhân sự</th>
+                  ${week.map(d => `<th>${weekday(d)}<br>${formatDate(d)}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody>
+                ${state.employees.map(emp => `
+                  <tr>
+                    <td>
+                      <div class="emp-name">${escapeHtml(emp.name)}</div>
+                      <div class="emp-meta">${escapeHtml(emp.code)} | ${escapeHtml(emp.role)} | ${escapeHtml(emp.zone)}</div>
+                    </td>
+                    ${week.map(d => renderDayCell(emp, isoDate(d))).join('')}
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderDayCell(emp, date) {
+      const entry = getEntry(emp.id, date);
+      return `
+        <td>
+          <button class="day-cell" onclick="openScheduleForm('${emp.id}', '${date}')">
+            <span class="pill s-${entry.status}">${entry.status}</span>
+            <span class="cell-line">${escapeHtml(entry.shift || '-')}</span>
+            <span class="cell-line">${escapeHtml(entry.position || emp.position || '-')}</span>
+            <span class="cell-line muted">${escapeHtml(entry.task || '-')}</span>
+          </button>
+        </td>
+      `;
+    }
+
+    function getEntry(employeeId, date) {
+      return state.schedule[`${employeeId}_${date}`] || {
+        employeeId,
+        date,
+        status: 'Onl',
+        shift: state.customShifts[0],
+        zone: '',
+        position: '',
+        task: ''
+      };
+    }
+
+    function openScheduleForm(employeeId, date) {
+      const emp = state.employees.find(e => e.id === employeeId);
+      const entry = getEntry(employeeId, date);
+      openModal(`Phân công: ${emp.name} - ${date}`, `
+        <div class="form-grid">
+          ${selectField('Trạng thái', 'fStatus', Object.keys(statuses), entry.status, key => `${key} - ${statuses[key]}`)}
+          ${selectField('Ca làm', 'fShift', state.customShifts, entry.shift)}
+          ${selectField('Phân kho', 'fZone', zones, entry.zone || emp.zone)}
+          ${selectField('Vị trí', 'fPosition', state.customPositions, entry.position || emp.position)}
+          ${selectField('Công tác', 'fTask', state.customTasks, entry.task)}
+          <label>Ghi chú<input id="fNote" value="${escapeAttr(entry.note || '')}" placeholder="Theo nhu cầu công việc"></label>
+        </div>
+      `, `
+        <button class="btn" onclick="closeModal()">Hủy</button>
+        <button class="btn primary" onclick="saveScheduleEntry('${employeeId}', '${date}')">Lưu phân công</button>
+      `);
+    }
+
+    function saveScheduleEntry(employeeId, date) {
+      state.schedule[`${employeeId}_${date}`] = {
+        employeeId,
+        date,
+        status: val('fStatus'),
+        shift: val('fShift'),
+        zone: val('fZone'),
+        position: val('fPosition'),
+        task: val('fTask'),
+        note: val('fNote')
+      };
+      closeModal();
+      saveState();
+      toast('Đã lưu phân công');
+    }
+
+    function autoScheduleWeek() {
+      const week = weekDates(selectedDate).map(isoDate);
+      const monthCounts = countHomeByEmployee(selectedDate.slice(0, 7));
+      const sorted = [...state.employees].sort((a, b) => (monthCounts[a.id] || 0) - (monthCounts[b.id] || 0));
+      sorted.forEach((emp, index) => {
+        const restIndex = index % 7;
+        const homeTarget = index % 3;
+        let homes = 0;
+        week.forEach((date, dayIndex) => {
+          let status = 'Onl';
+          if (dayIndex === restIndex) status = 'Rest';
+          if (dayIndex > restIndex && homes < homeTarget) {
+            status = 'Home';
+            homes++;
+          }
+          state.schedule[`${emp.id}_${date}`] = {
+            employeeId: emp.id,
+            date,
+            status,
+            shift: state.customShifts[index % state.customShifts.length],
+            zone: emp.zone,
+            position: emp.position,
+            task: status === 'Onl' ? state.customTasks[(index + dayIndex) % state.customTasks.length] : ''
+          };
+        });
+      });
+      saveState();
+      toast('Đã sắp lịch tự động cho tuần này');
+    }
+
+    function validateSchedule() {
+      const week = weekDates(selectedDate).map(isoDate);
+      const errors = [];
+      state.employees.forEach(emp => {
+        const entries = week.map(date => getEntry(emp.id, date));
+        const restIndex = entries.findIndex(e => e.status === 'Rest');
+        const homeCount = entries.filter(e => e.status === 'Home').length;
+        if (restIndex < 0) errors.push(`${emp.name}: thiếu 1 ngày Rest trong tuần`);
+        if (homeCount > 3) errors.push(`${emp.name}: có ${homeCount} ngày Home, vượt quá 3`);
+        if (entries.some((e, index) => e.status === 'Home' && (restIndex < 0 || index < restIndex))) {
+          errors.push(`${emp.name}: có Home trước Rest`);
+        }
+      });
+      const balance = homeBalance(selectedDate.slice(0, 7));
+      if (!balance.ok) errors.push(`Home tháng lệch ${balance.diff} ngày, vượt ngưỡng ${balance.allowed} ngày (${balance.percent}%).`);
+      openModal('Kết quả kiểm tra lịch', errors.length
+        ? `<div class="list">${errors.map(e => `<div class="card" style="border-color:#fda29b;color:#b42318">${escapeHtml(e)}</div>`).join('')}</div>`
+        : `<div class="card" style="border-color:#6ce9a6;color:#027a48">Lịch hợp lệ theo các quy tắc hiện tại.</div>`,
+        `<button class="btn primary" onclick="closeModal()">Đã rõ</button>`);
+    }
+
+    function renderEmployees() {
+      return `
+        <section class="panel">
+          <div class="panel-title">
+            <span>Danh sách nhân sự</span>
+            <span>
+              <button class="btn danger" onclick="deleteSelectedEmployees()">Xóa người đã chọn</button>
+              <button class="btn primary" onclick="openEmployeeForm()">Thêm nhân sự</button>
+            </span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Chọn</th><th>Mã nhân viên</th><th>Họ và tên</th><th>Ngày sinh</th><th>Vai trò</th><th>Phân kho</th><th>Vị trí</th><th>Thao tác</th></tr></thead>
+              <tbody>
+                ${state.employees.map(emp => `
+                  <tr>
+                    <td><input type="checkbox" class="emp-check" value="${emp.id}" aria-label="Chọn ${escapeAttr(emp.name)}"></td>
+                    <td>${escapeHtml(emp.code)}</td>
+                    <td>${escapeHtml(emp.name)}</td>
+                    <td>${emp.birthDate || '-'}</td>
+                    <td>${escapeHtml(emp.role || 'Worker')}</td>
+                    <td>${escapeHtml(emp.zone || '-')}</td>
+                    <td>${escapeHtml(emp.position || '-')}</td>
+                    <td>
+                      <button class="btn sm" onclick="openEmployeeForm('${emp.id}')">Sửa</button>
+                      <button class="btn sm danger" onclick="deleteEmployee('${emp.id}')">Xóa</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      `;
+    }
+
+    function openEmployeeForm(id = '') {
+      const emp = state.employees.find(e => e.id === id) || { code: '', name: '', birthDate: '', role: 'Worker', zone: zones[0], position: state.customPositions[0] };
+      openModal(id ? 'Cập nhật nhân sự' : 'Thêm nhân sự', `
+        <div class="form-grid">
+          <label>Mã nhân viên<input id="eCode" value="${escapeAttr(emp.code)}"></label>
+          <label>Họ và tên<input id="eName" value="${escapeAttr(emp.name)}"></label>
+          <label>Ngày sinh<input id="eBirth" type="date" value="${escapeAttr(emp.birthDate)}"></label>
+          ${selectField('Vai trò', 'eRole', ['Worker', 'Teamlead'], emp.role)}
+          ${selectField('Phân kho mặc định', 'eZone', zones, emp.zone)}
+          ${selectField('Vị trí mặc định', 'ePosition', state.customPositions, emp.position)}
+        </div>
+      `, `
+        <button class="btn" onclick="closeModal()">Hủy</button>
+        <button class="btn primary" onclick="saveEmployee('${id}')">Lưu</button>
+      `);
+    }
+
+    function saveEmployee(id) {
+      const payload = {
+        id: id || crypto.randomUUID(),
+        code: val('eCode'),
+        name: val('eName'),
+        birthDate: val('eBirth'),
+        role: val('eRole'),
+        zone: val('eZone'),
+        position: val('ePosition')
+      };
+      if (!payload.code || !payload.name) return toast('Cần nhập mã và họ tên');
+      const idx = state.employees.findIndex(e => e.id === id);
+      if (idx >= 0) state.employees[idx] = payload;
+      else state.employees.push(payload);
+      closeModal();
+      saveState();
+    }
+
+    function deleteEmployee(id) {
+      const emp = state.employees.find(e => e.id === id);
+      if (!confirm(`Xóa nhân sự ${emp.name}?`)) return;
+      removeEmployees([id]);
+      saveState();
+    }
+
+    function deleteSelectedEmployees() {
+      const ids = Array.from(document.querySelectorAll('.emp-check:checked')).map(input => input.value);
+      if (!ids.length) return toast('Chưa chọn nhân sự nào');
+      if (!confirm(`Xóa ${ids.length} nhân sự đã chọn?`)) return;
+      removeEmployees(ids);
+      saveState();
+    }
+
+    function removeEmployees(ids) {
+      const removeSet = new Set(ids);
+      state.employees = state.employees.filter(e => !removeSet.has(e.id));
+      Object.keys(state.schedule).forEach(key => {
+        if (ids.some(id => key.startsWith(`${id}_`))) delete state.schedule[key];
+      });
+      state.activities = state.activities.filter(a => !removeSet.has(a.employeeId));
+      state.records = state.records.filter(r => !removeSet.has(r.employeeId));
+    }
+
+    function openListsForm() {
+      openModal('Danh mục ca làm, vị trí, công tác', `
+        <div class="form-grid">
+          <label style="grid-column:1/-1">Ca làm, mỗi dòng một ca<textarea id="listShifts">${escapeHtml(state.customShifts.join('\n'))}</textarea></label>
+          <label style="grid-column:1/-1">Vị trí công tác, mỗi dòng một vị trí<textarea id="listPositions">${escapeHtml(state.customPositions.join('\n'))}</textarea></label>
+          <label style="grid-column:1/-1">Công tác trực kho, mỗi dòng một công tác<textarea id="listTasks">${escapeHtml(state.customTasks.join('\n'))}</textarea></label>
+        </div>
+      `, `<button class="btn" onclick="closeModal()">Hủy</button><button class="btn primary" onclick="saveLists()">Lưu danh mục</button>`);
+    }
+
+    function saveLists() {
+      state.customShifts = lines('listShifts', shifts);
+      state.customPositions = lines('listPositions', positions);
+      state.customTasks = lines('listTasks', tasks);
+      closeModal();
+      saveState();
+      toast('Đã cập nhật danh mục');
+    }
+
+    function renderActivities() {
+      const month = selectedDate.slice(0, 7);
+      return `
+        <section class="panel">
+          <div class="panel-title"><span>Nhật ký hoạt động / bài đọc / kiểm tra kỹ năng</span><button class="btn primary" onclick="openActivityForm()">Thêm hoạt động</button></div>
+          <div class="toolbar"><input type="month" value="${month}" onchange="selectedDate=this.value+'-01';render()"></div>
+          <div class="list">
+            ${state.activities.filter(a => a.date.startsWith(month)).sort((a,b) => b.date.localeCompare(a.date)).map(a => {
+              const emp = state.employees.find(e => e.id === a.employeeId);
+              return `<div class="card">
+                <div class="card-row"><strong>${escapeHtml(a.title)}</strong><span class="${a.done ? 'score-pos' : 'score-neg'}">${a.done ? 'Đã thực hiện' : 'Chưa thực hiện'}</span></div>
+                <div class="muted">${a.date} | ${escapeHtml(emp?.name || 'Không rõ')} | ${escapeHtml(a.type)}</div>
+                <div>${escapeHtml(a.note || '')}</div>
+                <div><button class="btn sm" onclick="openActivityForm('${a.id}')">Sửa</button> <button class="btn sm danger" onclick="deleteActivity('${a.id}')">Xóa</button></div>
+              </div>`;
+            }).join('') || '<div class="card muted">Chưa có hoạt động trong tháng này.</div>'}
+          </div>
+        </section>
+      `;
+    }
+
+    function openActivityForm(id = '') {
+      const item = state.activities.find(a => a.id === id) || { employeeId: state.employees[0]?.id || '', date: selectedDate, type: 'Bài đọc', title: '', done: false, note: '' };
+      openModal(id ? 'Cập nhật hoạt động' : 'Thêm hoạt động', `
+        <div class="form-grid">
+          ${selectField('Nhân sự', 'aEmployee', state.employees.map(e => e.id), item.employeeId, id => state.employees.find(e => e.id === id)?.name || id)}
+          <label>Ngày<input id="aDate" type="date" value="${item.date}"></label>
+          ${selectField('Loại hoạt động', 'aType', ['Bài đọc', 'Kiểm tra kỹ năng', 'Đào tạo', 'Khác'], item.type)}
+          <label>Tiêu đề<input id="aTitle" value="${escapeAttr(item.title)}"></label>
+          ${selectField('Trạng thái', 'aDone', ['true', 'false'], String(item.done), v => v === 'true' ? 'Đã thực hiện' : 'Chưa thực hiện')}
+          <label>Ghi chú<input id="aNote" value="${escapeAttr(item.note || '')}"></label>
+        </div>
+      `, `<button class="btn" onclick="closeModal()">Hủy</button><button class="btn primary" onclick="saveActivity('${id}')">Lưu</button>`);
+    }
+
+    function saveActivity(id) {
+      const payload = { id: id || crypto.randomUUID(), employeeId: val('aEmployee'), date: val('aDate'), type: val('aType'), title: val('aTitle'), done: val('aDone') === 'true', note: val('aNote') };
+      if (!payload.employeeId || !payload.title) return toast('Cần chọn nhân sự và nhập tiêu đề');
+      upsert(state.activities, payload);
+      closeModal();
+      saveState();
+    }
+
+    function deleteActivity(id) {
+      if (!confirm('Xóa hoạt động này?')) return;
+      state.activities = state.activities.filter(a => a.id !== id);
+      saveState();
+    }
+
+    function renderRecords() {
+      const month = selectedDate.slice(0, 7);
+      return `
+        <section class="panel">
+          <div class="panel-title"><span>Ghi nhận bất thường / vi phạm / thành tích</span><button class="btn primary" onclick="openRecordForm()">Thêm ghi nhận</button></div>
+          <div class="toolbar"><input type="month" value="${month}" onchange="selectedDate=this.value+'-01';render()"></div>
+          <div class="list">
+            ${state.records.filter(r => r.date.startsWith(month)).sort((a,b) => b.date.localeCompare(a.date)).map(r => {
+              const emp = state.employees.find(e => e.id === r.employeeId);
+              return `<div class="card">
+                <div class="card-row"><strong>${escapeHtml(r.type)}</strong><span class="${r.points >= 0 ? 'score-pos' : 'score-neg'}">${r.points} điểm</span></div>
+                <div class="muted">${r.date} | ${escapeHtml(emp?.name || 'Không rõ')}</div>
+                <div>${escapeHtml(r.note)}</div>
+                <div><button class="btn sm" onclick="openRecordForm('${r.id}')">Sửa</button> <button class="btn sm danger" onclick="deleteRecord('${r.id}')">Xóa</button></div>
+              </div>`;
+            }).join('') || '<div class="card muted">Chưa có ghi nhận trong tháng này.</div>'}
+          </div>
+        </section>
+      `;
+    }
+
+    function openRecordForm(id = '') {
+      const item = state.records.find(r => r.id === id) || { employeeId: state.employees[0]?.id || '', date: selectedDate, type: 'Bất thường', points: 0, note: '' };
+      openModal(id ? 'Cập nhật ghi nhận' : 'Thêm ghi nhận', `
+        <div class="form-grid">
+          ${selectField('Nhân sự', 'rEmployee', state.employees.map(e => e.id), item.employeeId, id => state.employees.find(e => e.id === id)?.name || id)}
+          <label>Ngày<input id="rDate" type="date" value="${item.date}"></label>
+          ${selectField('Loại ghi nhận', 'rType', ['Bất thường', 'Vi phạm', 'Thành tích'], item.type)}
+          <label>Điểm cộng/trừ<input id="rPoints" type="number" value="${item.points}"></label>
+          <label style="grid-column:1/-1">Nội dung<textarea id="rNote">${escapeHtml(item.note)}</textarea></label>
+        </div>
+      `, `<button class="btn" onclick="closeModal()">Hủy</button><button class="btn primary" onclick="saveRecord('${id}')">Lưu</button>`);
+    }
+
+    function saveRecord(id) {
+      const payload = { id: id || crypto.randomUUID(), employeeId: val('rEmployee'), date: val('rDate'), type: val('rType'), points: Number(val('rPoints') || 0), note: val('rNote') };
+      if (!payload.employeeId || !payload.note) return toast('Cần chọn nhân sự và nhập nội dung');
+      upsert(state.records, payload);
+      closeModal();
+      saveState();
+    }
+
+    function deleteRecord(id) {
+      if (!confirm('Xóa ghi nhận này?')) return;
+      state.records = state.records.filter(r => r.id !== id);
+      saveState();
+    }
+
+    function renderReports() {
+      const month = selectedDate.slice(0, 7);
+      const homeCounts = countHomeByEmployee(month);
+      const balance = homeBalance(month);
+      return `
+        <section class="panel">
+          <div class="panel-title"><span>Báo cáo tháng ${month}</span><input type="month" value="${month}" onchange="selectedDate=this.value+'-01';render()"></div>
+          <div class="grid stats">
+            <div class="stat"><div class="label">Tổng Home</div><div class="value">${sum(Object.values(homeCounts))}</div></div>
+            <div class="stat"><div class="label">Lệch Home</div><div class="value">${balance.diff}</div></div>
+            <div class="stat"><div class="label">Ngưỡng cho phép</div><div class="value">${balance.allowed}</div></div>
+            <div class="stat"><div class="label">Trạng thái cân bằng</div><div class="value" style="color:${balance.ok ? 'var(--ok)' : 'var(--danger)'}">${balance.ok ? 'OK' : 'Lệch'}</div></div>
+          </div>
+          <div class="table-wrap">
+            <table class="summary-table">
+              <thead><tr><th>Nhân sự</th><th>Home</th><th>Rest</th><th>Vắng khác</th><th>Điểm</th><th>Hoạt động hoàn thành</th></tr></thead>
+              <tbody>
+                ${state.employees.map(emp => {
+                  const monthEntries = Object.values(state.schedule).filter(e => e.employeeId === emp.id && e.date.startsWith(month));
+                  const score = state.records.filter(r => r.employeeId === emp.id && r.date.startsWith(month)).reduce((n, r) => n + Number(r.points || 0), 0);
+                  const acts = state.activities.filter(a => a.employeeId === emp.id && a.date.startsWith(month));
+                  const done = acts.filter(a => a.done).length;
+                  const pct = acts.length ? Math.round(done / acts.length * 100) : 0;
+                  return `<tr>
+                    <td>${escapeHtml(emp.name)}<div class="emp-meta">${escapeHtml(emp.code)}</div></td>
+                    <td>${monthEntries.filter(e => e.status === 'Home').length}</td>
+                    <td>${monthEntries.filter(e => e.status === 'Rest').length}</td>
+                    <td>${monthEntries.filter(e => !['Onl','Home','Rest'].includes(e.status)).length}</td>
+                    <td class="${score >= 0 ? 'score-pos' : 'score-neg'}">${score}</td>
+                    <td><div>${done}/${acts.length}</div><div class="bar"><span style="width:${pct}%"></span></div></td>
+                  </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      `;
+    }
+
+    function countHomeByEmployee(month) {
+      const counts = {};
+      state.employees.forEach(e => counts[e.id] = 0);
+      Object.values(state.schedule).forEach(entry => {
+        if (entry.date.startsWith(month) && entry.status === 'Home') counts[entry.employeeId] = (counts[entry.employeeId] || 0) + 1;
+      });
+      return counts;
+    }
+
+    function homeBalance(month) {
+      const values = Object.values(countHomeByEmployee(month));
+      const avg = values.length ? sum(values) / values.length : 0;
+      const min = values.length ? Math.min(...values) : 0;
+      const max = values.length ? Math.max(...values) : 0;
+      const allowed = Math.max(1, Math.ceil(avg * 0.05));
+      return { ok: max - min <= allowed, diff: max - min, allowed, percent: avg ? Math.round((max - min) / avg * 100) : 0 };
+    }
+
+    function moveWeek(delta) {
+      const d = new Date(selectedDate);
+      d.setDate(d.getDate() + delta * 7);
+      selectedDate = isoDate(d);
+      render();
+    }
+
+    function weekDates(dateString) {
+      const d = new Date(dateString + 'T00:00:00');
+      const day = d.getDay() || 7;
+      const monday = new Date(d);
+      monday.setDate(d.getDate() - day + 1);
+      return Array.from({ length: 7 }, (_, i) => {
+        const x = new Date(monday);
+        x.setDate(monday.getDate() + i);
+        return x;
+      });
+    }
+
+    function exportExcel() {
+      const month = selectedDate.slice(0, 7);
+      const week = weekDates(selectedDate).map(isoDate);
+      const rows = [];
+      rows.push(['Nhân sự', 'Mã NV', ...week]);
+      state.employees.forEach(emp => {
+        rows.push([emp.name, emp.code, ...week.map(date => {
+          const e = getEntry(emp.id, date);
+          return `${e.status} | ${e.shift || ''} | ${e.position || ''} | ${e.task || ''}`;
+        })]);
+      });
+      rows.push([]);
+      rows.push(['Báo cáo tháng', month]);
+      rows.push(['Nhân sự', 'Home', 'Rest', 'Điểm', 'Hoạt động hoàn thành']);
+      state.employees.forEach(emp => {
+        const entries = Object.values(state.schedule).filter(e => e.employeeId === emp.id && e.date.startsWith(month));
+        const score = state.records.filter(r => r.employeeId === emp.id && r.date.startsWith(month)).reduce((n, r) => n + Number(r.points || 0), 0);
+        const acts = state.activities.filter(a => a.employeeId === emp.id && a.date.startsWith(month));
+        rows.push([emp.name, entries.filter(e => e.status === 'Home').length, entries.filter(e => e.status === 'Rest').length, score, `${acts.filter(a => a.done).length}/${acts.length}`]);
+      });
+      const html = `<table>${rows.map(row => `<tr>${row.map(cell => `<td>${escapeHtml(String(cell ?? ''))}</td>`).join('')}</tr>`).join('')}</table>`;
+      download(`TU2G3_bao_cao_${month}.xls`, html, 'application/vnd.ms-excel;charset=utf-8');
+    }
+
+    function exportBackup() {
+      download(`TU2G3_backup_${selectedDate}.json`, JSON.stringify(state, null, 2), 'application/json;charset=utf-8');
+    }
+
+    function importBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          state = JSON.parse(reader.result);
+          saveState();
+          toast('Đã nhập dữ liệu');
+        } catch (err) {
+          toast('File JSON không hợp lệ');
+        }
+      };
+      reader.readAsText(file, 'utf-8');
+      event.target.value = '';
+    }
+
+    function selectField(label, id, options, selected, formatter = v => v) {
+      return `<label>${label}<select id="${id}">${options.map(v => `<option value="${escapeAttr(v)}" ${String(v) === String(selected) ? 'selected' : ''}>${escapeHtml(formatter(v))}</option>`).join('')}</select></label>`;
+    }
+
+    function openModal(title, body, foot) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalBody').innerHTML = body;
+      document.getElementById('modalFoot').innerHTML = foot;
+      document.getElementById('modal').showModal();
+    }
+    function closeModal() { document.getElementById('modal').close(); }
+    function val(id) { return document.getElementById(id).value.trim(); }
+    function lines(id, fallback) {
+      const values = val(id).split(/\n+/).map(x => x.trim()).filter(Boolean);
+      return values.length ? values : [...fallback];
+    }
+    function upsert(list, item) {
+      const idx = list.findIndex(x => x.id === item.id);
+      if (idx >= 0) list[idx] = item;
+      else list.push(item);
+    }
+    function isoDate(date) { return date.toISOString().slice(0, 10); }
+    function formatDate(date) { return `${String(date.getDate()).padStart(2,'0')}/${String(date.getMonth()+1).padStart(2,'0')}`; }
+    function weekday(date) { return ['CN','T2','T3','T4','T5','T6','T7'][date.getDay()]; }
+    function sum(nums) { return nums.reduce((a, b) => a + Number(b || 0), 0); }
+    function escapeHtml(text) {
+      return String(text ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[ch]));
+    }
+    function escapeAttr(text) { return escapeHtml(text); }
+    function download(filename, content, type) {
+      const blob = new Blob(['\ufeff', content], { type });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+    function toast(message) {
+      const el = document.getElementById('toast');
+      el.textContent = message;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 2200);
+    }
+
+    render();
+  </script>
+
+<!-- Chèn các thư viện Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // 1. Dán cấu hình Firebase của bạn vào đây
+
+  const firebaseConfig = {
+  apiKey: "AIzaSyBS5tTn66Jd9MHhzZjBjLYmg-gffT2s5C8",
+  authDomain: "quan-ly-nhan-42d7c.firebaseapp.com",
+  databaseURL: "https://quan-ly-nhan-42d7c-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "quan-ly-nhan-42d7c",
+  storageBucket: "quan-ly-nhan-42d7c.firebasestorage.app",
+  messagingSenderId: "869638537390",
+  appId: "1:869638537390:web:81f8bed3df31e17e01ed3f",
+  measurementId: "G-VG9GLD0B7L"
+  };
+
+  // Khởi tạo Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const saveLocalData = window.saveData;
+
+  window.saveData = async function() {
+    saveLocalData();
+    try {
+      // Lưu toàn bộ trạng thái vào một document 'app_data' trong collection 'configs'
+      await setDoc(doc(db, "management", "shein_data"), {
+        employees: employees,
+        scheduleData: scheduleData,
+        scheduleDetails: scheduleDetails,
+        activities: activities,
+        violations: violations,
+        lastUpdated: new Date()
+      });
+      console.log("Dữ liệu đã được đồng bộ lên Firebase!");
+    } catch (e) {
+      console.error("Lỗi khi lưu dữ liệu: ", e);
+      showToast("Lỗi kết nối máy chủ!");
+    }
+  };
+
+  // 3. Hàm tải dữ liệu khi mở web
+  async function loadData() {
+    const docRef = doc(db, "management", "shein_data");
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      employees = data.employees || [];
+      scheduleData = data.scheduleData || {};
+      scheduleDetails = data.scheduleDetails || {};
+      activities = data.activities || [];
+      violations = data.violations || [];
+      
+      // Sau khi tải xong thì render lại giao diện
+      switchTab(currentTab);
+    } else {
+      console.log("Chưa có dữ liệu trên Cloud, khởi tạo dữ liệu mẫu...");
+      addSampleData();
+    }
+  }
+
+  // Gọi hàm tải dữ liệu khi trang web sẵn sàng
+  window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+
+</body>
+</html>
